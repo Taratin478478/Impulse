@@ -189,7 +189,7 @@ QComboBox QAbstractItemView {
           </item>
           <item>
            <property name="text">
-            <string>Интенсивность отказов (%)</string>
+            <string>Интенсивность отказов (% в год)</string>
            </property>
           </item>
          </widget>

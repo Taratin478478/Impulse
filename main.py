@@ -35,7 +35,7 @@ class mech_test(QMainWindow):
                      'Транзистор': 'transistor',
                      'Конденсатор': 'capacitor',
                      'Срок службы (лет)': 'time',
-                     'Интенсивность отказов (%)': 'intensity',
+                     'Интенсивность отказов (% в год)': 'intensity',
                      }
         self.con = sqlite3.connect('values.db')  # Подключение к БД
         self.db = self.con.cursor()
