@@ -1,10 +1,7 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QMessageBox, QInputDialog, QListWidgetItem
-from PyQt5.QtCore import QTimer, QUrl, Qt, QDateTime, QDate, QSize
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5 import uic
 import sqlite3
 import sys
-from pprint import pprint
 
 
 # name - название устройства
@@ -76,7 +73,6 @@ class mech_test(QMainWindow):
                     self.db.execute("SELECT time_base FROM main WHERE name = '{}'".format(name)).fetchall()[0][0])
             # Базовое значение интенсивности отказов или срока службы
             raw = self.db.execute("SELECT {} FROM main WHERE name = '{}'".format(factor, name)).fetchall()[0][0].split()
-            # print(raw)
             # Данные по фактору
         except Exception as ex:  # Если произошла ошибка, например был неправильный запрос или несуществующий параметр
             print(ex)
@@ -92,8 +88,6 @@ class mech_test(QMainWindow):
                 data[1].append(1 / float(d[1]) * base)
         return data
 
-
-# print(create_data("capacitor", "nominal_capacity", "intensity"))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
