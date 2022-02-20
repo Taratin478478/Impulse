@@ -2,8 +2,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5 import uic
 import sqlite3
 import sys
-
-
 # name - название устройства
 # lambda_base - базовое значение интенсивности отказов (доля от общего количества в год)
 # time_base - базовое значение срока службы (лет)
