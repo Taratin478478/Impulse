@@ -45,15 +45,16 @@ class mech_test(QMainWindow):
         self.con = sqlite3.connect('values.db')  # Подключение к БД
         self.db = self.con.cursor()
 
-    def plot(self, hour, temperature):
-        self.graphWidget.plot(hour, temperature)
+    def plot(self, x, y):
+        self.graphWidget.clear()
+        self.graphWidget.plot(x, y)
 
     def change_names(self):
         self.object_params.clear()
-        self.object_params.addItem('Температура')
-        self.object_params.addItem('Электрическая нагрузка')
+        self.object_params.addItem('Температура (°C)')
+        self.object_params.addItem('Электрическая нагрузка (%)')
         if self.test_object.currentText() == 'Транзистор':
-            self.object_params.addItem('Нагрузка по напряжению')
+            self.object_params.addItem('Нагрузка по напряжению (Ом)')
         elif self.test_object.currentText() == 'Конденсатор':
             self.object_params.addItem('Номинальная ёмкость')
         else:
@@ -63,7 +64,7 @@ class mech_test(QMainWindow):
         name = self.mslv[self.test_object.currentText()]
         factor = self.mslv[self.object_params.currentText()]
         mode = self.mslv[self.test_reasons.currentText()]
-        pprint(self.create_data(name, factor, mode))
+        self.plot(self.create_data(name, factor, mode)[0], self.create_data(name, factor, mode)[1])
 
     def create_data(self, name, factor, mode):  # Получаем данные из БД
         base = 0
