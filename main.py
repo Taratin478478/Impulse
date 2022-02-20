@@ -30,11 +30,11 @@ class mech_test(QMainWindow):
         uic.loadUi("ui/mсht2.ui", self)
         self.test_object.currentTextChanged.connect(self.change_names)
         self.show_graph.clicked.connect(self.former)
-        self.mslv = {'Температура': 'temperature',
-                     'Электрическая нагрузка': 'electrical_load',
-                     'Нагрузка по напряжению': 'voltage_load',
-                     'Номинальная ёмкость': 'nominal_capacity',
-                     'Номинальное сопротивление': 'nominal_resistance',
+        self.mslv = {'Температура (°C)': 'temperature',
+                     'Электрическая нагрузка (%)': 'electrical_load',
+                     'Нагрузка по напряжению (Ом)': 'voltage_load',
+                     'Номинальная ёмкость (пФ)': 'nominal_capacity',
+                     'Номинальное сопротивление (Ом)': 'nominal_resistance',
                      'Резистор': 'resistor',
                      'Транзистор': 'transistor',
                      'Конденсатор': 'capacitor',
@@ -56,9 +56,9 @@ class mech_test(QMainWindow):
         if self.test_object.currentText() == 'Транзистор':
             self.object_params.addItem('Нагрузка по напряжению (Ом)')
         elif self.test_object.currentText() == 'Конденсатор':
-            self.object_params.addItem('Номинальная ёмкость')
+            self.object_params.addItem('Номинальная ёмкость (пФ)')
         else:
-            self.object_params.addItem('Номинальное сопротивление')
+            self.object_params.addItem('Номинальное сопротивление (Ом)')
 
     def former(self):
         name = self.mslv[self.test_object.currentText()]

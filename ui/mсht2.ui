@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {background-color:     #404040}
+   <string notr="true">QMainWindow {background-color:     black}
 
 QComboBox {
 	background-color: rgb(255, 188, 173);
@@ -111,17 +111,17 @@ QComboBox QAbstractItemView {
           </property>
           <item>
            <property name="text">
-            <string>Температура</string>
+            <string>Температура (°C)</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Электрическая нагрузка</string>
+            <string>Электрическая нагрузка (%)</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Номинальное сопротивление</string>
+            <string>Номинальное сопротивление (Ом)</string>
            </property>
           </item>
          </widget>
