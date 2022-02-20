@@ -4,6 +4,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5 import uic
 import sqlite3
 import sys
+from pprint import pprint
 
 
 # name - название устройства
@@ -40,8 +41,12 @@ class mech_test(QMainWindow):
                      'Срок службы': 'time',
                      'Интенсивность отказов': 'intensity',
                      }
+        self.plot([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [30, 32, 34, 32, 33, 31, 29, 32, 35, 45])
         self.con = sqlite3.connect('values.db')  # Подключение к БД
         self.db = self.con.cursor()
+
+    def plot(self, hour, temperature):
+        self.graphWidget.plot(hour, temperature)
 
     def change_names(self):
         self.object_params.clear()
@@ -58,7 +63,7 @@ class mech_test(QMainWindow):
         name = self.mslv[self.test_object.currentText()]
         factor = self.mslv[self.object_params.currentText()]
         mode = self.mslv[self.test_reasons.currentText()]
-        print(self.create_data(name, factor, mode))
+        pprint(self.create_data(name, factor, mode))
 
     def create_data(self, name, factor, mode):  # Получаем данные из БД
         base = 0

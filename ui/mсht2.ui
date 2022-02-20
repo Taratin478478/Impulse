@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>757</width>
-    <height>563</height>
+    <width>842</width>
+    <height>489</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,11 +46,11 @@ QComboBox QAbstractItemView {
 	border-width: 2px;
 	border-radius: 10px;
 	background-color: rgb(255,240,245);
-
-
 }
 
-
+QCustomPlot {
+	backgorund-color: rgb(255,255,255);
+}
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -296,11 +296,7 @@ QComboBox QAbstractItemView {
      </layout>
     </item>
     <item>
-     <widget class="QGraphicsView" name="inst_graph">
-      <property name="styleSheet">
-       <string notr="true">QGraphicsView {background-color:     #404040}</string>
-      </property>
-     </widget>
+     <widget class="PlotWidget" name="graphWidget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -309,12 +305,20 @@ QComboBox QAbstractItemView {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>757</width>
+     <width>842</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
