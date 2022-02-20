@@ -81,13 +81,15 @@ class mech_test(QMainWindow):
         except Exception as ex:  # Если произошла ошибка, например был неправильный запрос или несуществующий параметр
             print(ex)
             return 0
-        data = dict()
+        data = [[], []]
         for r in raw:
             d = r.rstrip(",").split(":")
             if mode == "intensity":
-                data[float(d[0])] = float(d[1]) * base
+                data[0].append(float(d[0]))
+                data[1].append(float(d[1]) * base)
             elif mode == "time":
-                data[float(d[0])] = 1 / float(d[1]) * base
+                data[0].append(float(d[0]))
+                data[1].append(1 / float(d[1]) * base)
         return data
 
 
