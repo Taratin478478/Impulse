@@ -1,4 +1,9 @@
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QMessageBox, QInputDialog, QListWidgetItem
+from PyQt5.QtCore import QTimer, QUrl, Qt, QDateTime, QDate, QSize
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5 import uic
 import sqlite3
+import sys
 
 
 # name - название устройства
@@ -18,9 +23,17 @@ import sqlite3
 # intensity - интенсивность отказов (доля от общего количества в год)
 # time - Срок службы (лет)
 
+class mech_test(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi("ui/mсht2.ui", self)
+
+
+
 def create_data(name, factor, mode):  # Получаем данные из БД
     con = sqlite3.connect('values.db')  # Подключение к БД
     db = con.cursor()
+    base = None
     try:
         if mode == "intensity":
             base = float(db.execute("SELECT lambda_base FROM main WHERE name = '{}'".format(name)).fetchall()[0][0])
@@ -44,3 +57,9 @@ def create_data(name, factor, mode):  # Получаем данные из БД
 
 
 print(create_data("capacitor", "nominal_capacity", "intensity"))
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    ex = mech_test()
+    ex.show()
+    sys.exit(app.exec())
