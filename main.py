@@ -27,36 +27,65 @@ class mech_test(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("ui/mсht2.ui", self)
+        self.test_object.currentTextChanged.connect(self.change_names)
+        self.show_graph.clicked.connect(self.former)
+        self.mslv = {'Температура': 'temperature',
+                     'Электрическая нагрузка': 'electrical_load',
+                     'Нагрузка по напряжению': 'voltage_load',
+                     'Номинальная ёмкость': 'nominal_capacity',
+                     'Номинальное сопротивление': 'nominal_resistance',
+                     'Резистор': 'resistor',
+                     'Транзистор': 'transistor',
+                     'Конденсатор': 'capacitor',
+                     'Срок службы': 'time',
+                     'Интенсивность отказов': 'intensity',
+                     }
+        self.con = sqlite3.connect('values.db')  # Подключение к БД
+        self.db = self.con.cursor()
+
+    def change_names(self):
+        self.object_params.clear()
+        self.object_params.addItem('Температура')
+        self.object_params.addItem('Электрическая нагрузка')
+        if self.test_object.currentText() == 'Транзистор':
+            self.object_params.addItem('Нагрузка по напряжению')
+        elif self.test_object.currentText() == 'Конденсатор':
+            self.object_params.addItem('Номинальная ёмкость')
+        else:
+            self.object_params.addItem('Номинальное сопротивление')
+
+    def former(self):
+        name = self.mslv[self.test_object.currentText()]
+        factor = self.mslv[self.object_params.currentText()]
+        mode = self.mslv[self.test_reasons.currentText()]
+        print(self.create_data(name, factor, mode))
 
 
-
-def create_data(name, factor, mode):  # Получаем данные из БД
-    con = sqlite3.connect('values.db')  # Подключение к БД
-    db = con.cursor()
-    base = None
-    try:
-        if mode == "intensity":
-            base = float(db.execute("SELECT lambda_base FROM main WHERE name = '{}'".format(name)).fetchall()[0][0])
-        elif mode == "time":
-            base = float(db.execute("SELECT time_base FROM main WHERE name = '{}'".format(name)).fetchall()[0][0])
-        # Базовое значение интенсивности отказов или срока службы
-        raw = db.execute("SELECT {} FROM main WHERE name = '{}'".format(factor, name)).fetchall()[0][0].split()
-        # Данные по фактору
-    except Exception:  # Если произошла ошибка, например был неправильный запрос или несуществующий параметр
-        return 0
-    finally:  # Всегда отключаемся от БД
-        con.close()
-    data = dict()
-    for r in raw:
-        d = r.rstrip(",").split(":")
-        if mode == "intensity":
-            data[float(d[0])] = float(d[1]) * base
-        elif mode == "time":
-            data[float(d[0])] = 1 / float(d[1]) * base
-    return data
+    def create_data(self, name, factor, mode):  # Получаем данные из БД
+        base = None
+        try:
+            if mode == "intensity":
+                base = float(
+                    self.db.execute("SELECT lambda_base FROM main WHERE name = '{}'".format(name)).fetchall()[0][0])
+            elif mode == "time":
+                base = float(
+                    self.db.execute("SELECT time_base FROM main WHERE name = '{}'".format(name)).fetchall()[0][0])
+            # Базовое значение интенсивности отказов или срока службы
+            raw = self.db.execute("SELECT {} FROM main WHERE name = '{}'".format(factor, name)).fetchall()[0][0].split()
+            # Данные по фактору
+        except Exception:  # Если произошла ошибка, например был неправильный запрос или несуществующий параметр
+            return 0
+        data = dict()
+        for r in raw:
+            d = r.rstrip(",").split(":")
+            if mode == "intensity":
+                data[float(d[0])] = float(d[1]) * base
+            elif mode == "time":
+                data[float(d[0])] = 1 / float(d[1]) * base
+        return data
 
 
-print(create_data("capacitor", "nominal_capacity", "intensity"))
+# print(create_data("capacitor", "nominal_capacity", "intensity"))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
