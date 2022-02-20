@@ -60,9 +60,8 @@ class mech_test(QMainWindow):
         mode = self.mslv[self.test_reasons.currentText()]
         print(self.create_data(name, factor, mode))
 
-
     def create_data(self, name, factor, mode):  # Получаем данные из БД
-        base = None
+        base = 0
         try:
             if mode == "intensity":
                 base = float(
@@ -72,8 +71,10 @@ class mech_test(QMainWindow):
                     self.db.execute("SELECT time_base FROM main WHERE name = '{}'".format(name)).fetchall()[0][0])
             # Базовое значение интенсивности отказов или срока службы
             raw = self.db.execute("SELECT {} FROM main WHERE name = '{}'".format(factor, name)).fetchall()[0][0].split()
+            # print(raw)
             # Данные по фактору
-        except Exception:  # Если произошла ошибка, например был неправильный запрос или несуществующий параметр
+        except Exception as ex:  # Если произошла ошибка, например был неправильный запрос или несуществующий параметр
+            print(ex)
             return 0
         data = dict()
         for r in raw:
