@@ -39,10 +39,15 @@ class mech_test(QMainWindow):
                      }
         self.con = sqlite3.connect('values.db')  # Подключение к БД
         self.db = self.con.cursor()
+        self.pen = pyqtgraph.mkPen(width=3)
+        self.graphWidget.showGrid(x=True, y=True)
 
-    def plot(self, x, y):
+
+    def plot(self, x, y, namex, namey):
         self.graphWidget.clear()
-        self.graphWidget.plot(x, y)
+        self.graphWidget.setLabel('left', "<span style=\"color:white;font-size:20px\">" + namey + "</span>")
+        self.graphWidget.setLabel('bottom', "<span style=\"color:white;font-size:20px\">" + namex + "</span>")
+        self.graphWidget.plot(x, y, pen=self.pen)
 
     def change_names(self):
         self.object_params.clear()
@@ -59,7 +64,7 @@ class mech_test(QMainWindow):
         name = self.mslv[self.test_object.currentText()]
         factor = self.mslv[self.object_params.currentText()]
         mode = self.mslv[self.test_reasons.currentText()]
-        self.plot(self.create_data(name, factor, mode)[0], self.create_data(name, factor, mode)[1])
+        self.plot(self.create_data(name, factor, mode)[0], self.create_data(name, factor, mode)[1], self.object_params.currentText(), self.test_reasons.currentText())
 
     def create_data(self, name, factor, mode):  # Получаем данные из БД
         base = 0
